@@ -1,0 +1,40 @@
+from random import uniform
+
+def Pi_Monte_Carlo():
+    shoot = 10000000
+    hit = 0
+    for i in range(shoot):
+        x = uniform(0, 1)
+        y = uniform(0, 1)
+        if (x*x + y*y < 1):
+            hit += 1
+    print(4*hit/shoot)
+
+def Pi_Taylor_Formula_of_arcsin():
+    ret = 1
+    x = 1
+    for i in range(1, 200000000, 2):
+        x *= i
+        x /= (i + 1)
+        ret += x / (i + 2)
+    print(ret * 2)
+
+def Pi_Machin_Formula():
+    n = int(input("请输入想要计算到小数点后的位数:")) #输入字符转换为整数
+    t = n+10                                     #多计算10位，防止尾数取舍的影响
+    b = 10**t                                    #为算到小数点后t位，两边乘以10^t
+    x1 = b*4//5                                  #取整求含4/5的首项
+    x2 = b // -239                               #取整求含1/239的首项
+    s = x1+x2                                    #求第一大项
+    n *= 2                                       #设置下面循环的终点，即共计算n项
+    for i in range(3, n, 2):                     #循环初值=3，末值n,步长=2
+        x1 //= -25                               #取整求每个含1/5的项及符号
+        x2 //= -57121                            #取整求每个含1/239的项及符号
+        x = (x1+x2) // i                         #求两项之和，除以对应因子，取整
+        s += x                                   #求总和
+    pi = s*4                                     #求出π
+    pi //= 10**10                                #舍掉后十位
+    print(pi)                                    #输出圆周率π的值，不带小数点
+
+Pi_Machin_Formula()
+# Pi_Taylor_Formula_of_arcsin()
